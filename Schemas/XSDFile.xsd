@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Studio 2021 (https://www.liquid-technologies.com) -->
+<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+            targetNamespace="https://www.w3schools.com"
+            xmlns="https://www.w3schools.com"
+            elementFormDefault="qualified" >
+ 
+    <!-- In this part the department complex Type would be defined -->
+    <xs:complexType name="department">
+        <xs:sequence>
+         
+        </xs:sequence>
+    </xs:complexType>
+    <!-- end of the Department complex element-->
+    
+    <!--Complex Element concerning the scientific book  -->
+    <xs:complexType name="book_scientific">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"></xs:element>
+            <xs:choice>   <!-- Author or editor  -->
+                <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="editor" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+            </xs:choice>
+            <xs:element name="publisher" type="xs:string" minOccurs="1"></xs:element>
+            <xs:element name="year" type="xs:date"  minOccurs="1"></xs:element>
+            
+            <xs:element name="abstract" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <xs:element name="edition" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <xs:element name="ISBN" type="xs:integer" minOccurs="0" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- end of the scientific book  complex element-->
+
+
+    <!--Complex Element concerning the leisure book  -->
+    <xs:complexType name="leisure">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"></xs:element>
+            <xs:choice>
+                <!-- Author or editor  -->
+                <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="editor" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+            </xs:choice>
+            <xs:element name="publisher" type="xs:string" minOccurs="1"></xs:element>
+            <xs:element name="year" type="xs:date"  minOccurs="1"></xs:element>
+
+            <xs:element name="abstract" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <xs:element name="edition" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <xs:element name="ISBN" type="xs:integer" minOccurs="0" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- end of the leisure book  complex element-->
+
+    <xs:element name="bookshop"></xs:element>
+  
+
+</xs:schema> 
