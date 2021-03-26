@@ -24,8 +24,22 @@
      <!-- Scientific Dep -->
         <xs:complexType name="department_scientific">
             <xs:sequence>
-                <xs:element name="book" type="book_scientific"  minOccurs="1" maxOccurs="unbounded"></xs:element>
-                <xs:element name="article" type="article_scientific" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="books"    minOccurs="1" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="book" type="book_scientific"  minOccurs="1" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="articles"    minOccurs="1" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="article" type="article_scientific" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
 
             </xs:sequence>
             <xs:attribute name="category" fixed="scientific" ></xs:attribute>
@@ -99,9 +113,22 @@
     <!-- leisur Dep -->
     <xs:complexType name="department_leisure">
         <xs:sequence>
-            <xs:element name="books" type="books">
+            <xs:element name="books" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book_leisure" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
             </xs:element>
-            <xs:element name="periodical" type="periodicals"></xs:element>
+
+            <xs:element name="periodicals" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="periodical" type="periodicals" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
         </xs:sequence>
         <xs:attribute name="category" fixed="leisure" ></xs:attribute>
     </xs:complexType>
@@ -135,7 +162,7 @@
     </xs:complexType>
     <!-- end of the leisure book  complex element-->
     <!-- periodicals -->
-    <xs:complexType name="periodicals">
+    <xs:complexType name="periodical">
         <xs:sequence>
         <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
         <xs:element name="price" type="xs:float" minOccurs="1" maxOccurs="1"></xs:element>
