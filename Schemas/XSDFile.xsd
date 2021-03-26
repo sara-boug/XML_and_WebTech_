@@ -5,21 +5,41 @@
             xmlns="https://www.w3schools.com"
             elementFormDefault="qualified" >
  
-    <!-- In this part the department complex Type would be defined -->
-    <xs:complexType name="department">
+    <!--  essential complex types  -->
+    <!-- authors  -->
+    <xs:complexType name="authors">
         <xs:sequence>
-         
+            <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
         </xs:sequence>
     </xs:complexType>
-    <!-- end of the Department complex element-->
+
+    <!-- authors  -->
+    <xs:complexType name="editors">
+        <xs:sequence>
+            <xs:element name="editor" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- end of the essential complex type -->
     
+     <!-- Scientific Dep -->
+        <xs:complexType name="department_scientific">
+            <xs:sequence>
+                <xs:element name="book" type="book_scientific"  minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="article" type="article_scientific" minOccurs="1" maxOccurs="unbounded"></xs:element>
+
+            </xs:sequence>
+            <xs:attribute name="category" fixed="scientific" ></xs:attribute>
+        </xs:complexType>
+    <!-- End of the Scientific Dep -->
+
+
     <!--Complex Element concerning the scientific book  -->
     <xs:complexType name="book_scientific">
         <xs:sequence>
             <xs:element name="title" type="xs:string"></xs:element>
             <xs:choice>   <!-- Author or editor  -->
-                <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
-                <xs:element name="editor" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="authors" type="authors" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="editors" type="editors" minOccurs="1" maxOccurs="1"></xs:element>
             </xs:choice>
             <xs:element name="publisher" type="xs:string" minOccurs="1"></xs:element>
             <xs:element name="year" type="xs:date"  minOccurs="1"></xs:element>
@@ -32,14 +52,70 @@
     <!-- end of the scientific book  complex element-->
 
 
+    <!--Complex Element concerning the scientific Journal  -->
+    <xs:complexType name="book_scientific">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"></xs:element>
+            <xs:element name="volume" type="xs:integer" minOccurs="1"></xs:element>
+            <xs:element name="number" type="xs:integer" minOccurs="1"></xs:element>
+            <xs:choice>
+                <!-- Author or editor  -->
+                <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+               
+                <xs:element name="editor" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+             </xs:choice>
+
+            <xs:element name="year" type="xs:date"  minOccurs="1"  maxOccurs="unbounded"></xs:element>
+
+            <xs:element name="publisher" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <!--  If impact factor is included then it must accompanied with the year  -->
+            <xs:sequence minOccurs="1"  maxOccurs="1"> 
+                <xs:element name="impactFactor" type="xs:date"  minOccurs="1"  maxOccurs="1"></xs:element>
+                <xs:element name="year" type="xs:date"  minOccurs="1"  maxOccurs="1"></xs:element>
+            </xs:sequence>
+            <xs:element name="impactFactor" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+         </xs:sequence>
+    </xs:complexType>
+    <!-- The article of the journal-->
+    <xs:complexType name="article_scientific">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"  minOccurs="1"  maxOccurs="1"></xs:element>
+            <xs:element name="authors" type="authors" minOccurs="1"  maxOccurs="1"></xs:element>
+            <xs:choice>
+             <xs:element name="pages" type="page" minOccurs="1" maxOccurs="1"></xs:element>
+             <xs:element name="number" type="xs:integer" minOccurs="1" maxOccurs="1"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="page">
+        <xs:sequence>
+             <xs:element name="start" type="xs:integer" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="end" type="xs:integer" minOccurs="1" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- End of the article of the journal -->
+    <!-- end of the scientific journal  complex element-->
+
+    <!-- leisur Dep -->
+    <xs:complexType name="department_leisure">
+        <xs:sequence>
+            <xs:element name="books" type="books">
+            </xs:element>
+            <xs:element name="periodical" type="periodicals"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="category" fixed="leisure" ></xs:attribute>
+    </xs:complexType>
+    <!-- End of the leisure Dep -->
+
+
     <!--Complex Element concerning the leisure book  -->
-    <xs:complexType name="leisure">
+    <xs:complexType name="book_leisure">
         <xs:sequence>
             <xs:element name="title" type="xs:string"></xs:element>
             <xs:choice>
                 <!-- Author or editor  -->
-                <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
-                <xs:element name="editor" type="xs:string" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="authors" type="authors" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element name="editors" type="editors" minOccurs="1" maxOccurs="unbounded"></xs:element>
             </xs:choice>
             <xs:element name="publisher" type="xs:string" minOccurs="1"></xs:element>
             <xs:element name="year" type="xs:date"  minOccurs="1"></xs:element>
@@ -48,10 +124,39 @@
             <xs:element name="edition" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
             <xs:element name="ISBN" type="xs:integer" minOccurs="0" maxOccurs="1"></xs:element>
         </xs:sequence>
+        <xs:attribute name="genre">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="(thriller|horror|sci/fi|romance|literature)"></xs:pattern>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
     </xs:complexType>
     <!-- end of the leisure book  complex element-->
+    <!-- periodicals -->
+    <xs:complexType name="periodicals">
+        <xs:sequence>
+        <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+        <xs:element name="price" type="xs:float" minOccurs="1" maxOccurs="1"></xs:element>
+        <xs:element name="publisher" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="books">
+        <xs:sequence>
+         <xs:element type="book_leisure" minOccurs="1" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
-    <xs:element name="bookshop"></xs:element>
+    <xs:element name="bookshop">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="department" type="department_scientific"  minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="department" type="department_leisure" minOccurs="1" maxOccurs="1"></xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
   
 
 </xs:schema> 
