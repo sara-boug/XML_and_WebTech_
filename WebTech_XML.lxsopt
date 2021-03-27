@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlStudioProjectOptions Version="19.0.3.10699">
+  <File>.\Documents\XMLFile.xml</File>
+  <File>.\Schemas\XSDFile.xsd</File>
+  <ActiveWindow>XMLFile.xml</ActiveWindow>
+  <ProjectTreeState />
+  <UserProperties sourceUri=".\Schemas\XSDFile.xsd">
+    <Value name="Zoom">1</Value>
+  </UserProperties>
+</XmlStudioProjectOptions>
