@@ -2,7 +2,7 @@
 <XmlStudioProjectOptions Version="19.0.3.10699">
   <File>.\Documents\XMLFile.xml</File>
   <File>.\Schemas\XSDFile.xsd</File>
-  <ActiveWindow>XMLFile.xml</ActiveWindow>
+  <ActiveWindow>XSDFile.xsd</ActiveWindow>
   <ProjectTreeState />
   <UserProperties sourceUri=".\Schemas\XSDFile.xsd">
     <Value name="Zoom">1</Value>
