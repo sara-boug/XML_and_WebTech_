@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <bookshop xmlns="https://www.w3schools.com"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="https://www.w3schools.com  ../Schemas/XSDFile.xsd" id="1">
+xsi:schemaLocation="https://www.w3schools.com  ../Schemas/XSDFile.xsd">
 
     <departmentScientific>
         <!--  Books -->
