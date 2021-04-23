@@ -22,25 +22,37 @@
             </head>
             <body>
                 <xsl:for-each-group select="*" group-by="author">
+                    <!--  storing the grouping key in a variable-->
+                    <xsl:variable name="title" select="current-grouping-key()"></xsl:variable>
                     <h1>
-                        <xsl:value-of select="current-grouping-key()"/>
+                        <xsl:value-of select="$title"/>
                     </h1>
+                        <!-- the counter i --> 
                     <table>
-                        <!-- the counter i -->
                         <xsl:for-each-group select="current-group()" group-by="year">
-                            <xsl:sort select="current-grouping-key()"></xsl:sort>
+                           
+                            <xsl:sort select="current-grouping-key()"></xsl:sort>                  
+                       
+
                             <tr>
                                 <th colspan="3">
                                     <xsl:value-of select="current-grouping-key()"/>
                                 </th>
                             </tr>
+                            <!-- row enumeration -->
                             <xsl:variable name="c" select="count(current-group())+1"></xsl:variable>
-
+                            
                             <xsl:for-each select="current-group()">
+                    
                                 <xsl:sort select="author"></xsl:sort>
-                                <tr>
+                                 <tr>
                                     <td>
+                                        <a>
+                                            <xsl:attribute name="name">
+                                                <xsl:value-of select="title"></xsl:value-of>
+                                            </xsl:attribute>
                                          <xsl:value-of select="$c - position()"></xsl:value-of>
+                                        </a>
                                     </td>
                                     <td>
                                         <a>
@@ -54,12 +66,41 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <xsl:copy-of select="author"></xsl:copy-of>,
+                                        <xsl:copy-of select="author" >
+                                        </xsl:copy-of>,
                                         <xsl:value-of select="title"/>
                                     </td>
                                 </tr>
                             </xsl:for-each>
 
+                        </xsl:for-each-group>
+                    </table>
+                    
+                    <!-- Coauthors table  --> 
+                    <h2> Coauthors</h2>
+                    <table>
+                        <xsl:for-each-group select="current-group()" group-by="author">
+                            <xsl:sort select="current-grouping-key()"></xsl:sort>
+
+                            <xsl:if test="not($title = current-grouping-key())">
+                        <tr>
+                            <td>
+                                <xsl:value-of select="current-grouping-key()"></xsl:value-of>
+                             </td>
+
+                            <td>
+                                <xsl:for-each select="current-group()">
+                                    [<a>
+                                        <xsl:attribute name="href">
+                                            <xsl:value-of select="concat('#',title)"></xsl:value-of>
+                                        </xsl:attribute>
+                                        <xsl:value-of select="position()"></xsl:value-of>
+                                    </a>]
+                                </xsl:for-each>
+
+                            </td>
+                        </tr>
+                                </xsl:if>
                         </xsl:for-each-group>
                     </table>
 
