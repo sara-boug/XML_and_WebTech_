@@ -71,6 +71,8 @@ declare function local:distance2($dblp, $graph_dist, $cont){
     let $sol := ($graph_dist,$next_dist)
 (: return <cont>{$current_cont}{$sol}</cont> :)
     return local:distance2($dblp, $sol, $current_cont)
+
+
 };
 
 declare function local:height($graph_dist){
@@ -91,9 +93,10 @@ declare function local:couple_already_exist($author1, $author2, $graph_dist){
 
 let $dblp := fn:doc("dblp-excerpt.xml")//dblp
 let $graph := local:setUp()
-let $dist_one := local:distance_one($graph)
+(:let $dist_one := local:distance_one($graph)
 let $result := local:distance2($dblp, $dist_one, 1)
-return <sol2>{$result} </sol2>
- 
+
+return <sol2>{$result} </sol2>:)
+return $graph
 
  
