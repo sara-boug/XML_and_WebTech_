@@ -7,106 +7,177 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+
+
+#################################################################
+####    Classes #################################################
+#################################################################
+
+
+##### paper and its restrictions ###################
+:paper rdf:type owl:Class;
+ owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasType; 
+   owl:allValuesFrom  rdfs:Literal];
+
+ owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasJourName; 
+   owl:allValuesFrom  rdfs:Literal];
+
+    owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasConfSeries; 
+   owl:allValuesFrom  rdfs:Literal];
+
+    owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasConfName; 
+   owl:allValuesFrom  rdfs:Literal];
+
+    owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasType; 
+   owl:allValuesFrom  rdfs:Literal];
+
+    owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasYear; 
+   owl:allValuesFrom  rdfs:Literal];
+
+       owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasEntityType; 
+   owl:allValuesFrom  rdfs:Literal];
+
+   owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasType; 
+   owl:allValuesFrom  rdfs:Literal];
+
+   
+   owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasIndustrialSector; 
+   owl:allValuesFrom  rdfs:Literal];
+
+      
+  owl:equivalentClass [
+   rdf:type owl:Restriction;
+   owl:onProperty :hasCsoEnhancedTopic; 
+   owl:allValuesFrom  csos:Topic;].
+
+ ### properties with Literal Range  for the Paper #######
+:aida:paper  rdf:type owl:Class.
+:mag:paper   rdf:type owl:Class.
+:mag:paper  owl:equivalentClass  :paper. 
+:aida:paper  owl:equivalentClass :paper.
+
+################################################################
+
+###### author ###################################################
+
+### the author should at least have written 1 paper ####
+:mag:author rdf:type owl:Class.
+:aida:author rdf:type owl:Class.
+:author rdf:type owl:Class.
+:author rdf:type [
+rdf:type owl:Restriction;
+owl:onProperty :hasPaper;
+owl:minQualifiedCardinality  "1"^^xsd:nonNegativeInteger ;
+owl:onClass :paper;
+].
+## Distributions ###############################################
+### universal quantification is used to describe a class of individuals for which all related individuals must be instances of a given class 
+### union of several restrictions are added
+:CitationsDistribution  rdf:type owl:Class;
+owl:equivalentClass
+  [  rdf:type owl:class;                
+    
+  rdf:type owl:Restriction;
+  owl:onProperty :hasCitationByYear; 
+  owl:allValuesFrom  rdfs:Literal] ;## restrictions on literals
+owl:equivalentClass
+  [ rdf:type owl:class;                
+    rdf:type owl:Restriction;  ## restrictions on float 
+    owl:onProperty :hasCitationByYear-weight;
+    owl:allValuesFrom  xsd:float].
+   
+       
+  
+  ### GRIDTypeDistribution :hasGridType  :hasGridType-weight
+
+:GRIDTypeDistribution rdf:type owl:Class; 
+ owl:equivalentClass [
+   rdf:type owl:class;                
+   rdf:type owl:Restriction;
+   owl:onProperty :hasGridType; 
+   owl:allValuesFrom  rdfs:Literal]; ## restrictions on literals
+ owl:equivalentClass [rdf:type owl:Restriction;  ## restrictions on float 
+    owl:onProperty :hasGridType-weight;
+    owl:allValuesFrom xsd:float].
+                       
+
+### Country Distribution  :hasCountry :hasCountry-weight
+:CountryDistribution rdf:type owl:Class; 
+  owl:equivalentClass
+  [  rdf:type owl:class;                
+   rdf:type owl:Restriction;
+  owl:onProperty :hasCountry; 
+  owl:allValuesFrom  rdfs:Literal]; ## restrictions on literals
+  owl:equivalentClass  [  
+    rdf:type owl:Restriction;  ## restrictions on float 
+    owl:onProperty :hasCountry-weight;
+    owl:allValuesFrom  xsd:float;                  
+ ].
+
+### Affiliation  Distribution  :hasAffiliation :hasAffiliation-weight
+:AffiliationDistribution rdf:type owl:Class; 
+owl:equivalentClass
+  [  rdf:type owl:class;                
+   rdf:type owl:Restriction;
+  owl:onProperty :hasAffiliation; 
+  owl:allValuesFrom  rdfs:Literal]; ## restrictions on literals
+owl:equivalentClass
+  [rdf:type owl:Restriction;  ## restrictions on float 
+    owl:onProperty :hasAffiliation-weight;
+    owl:allValuesFrom    xsd:float;].
+
+
 #################################################################
 ####    Properties #################################################
 #################################################################
 ### paper Property
 :hasCitationDistribution rdf:type owl:ObjectProperty; 
 rdfs:domain  :paper; 
-rdfs:range   :GRIDTypeDistribution.
-
-:hasGridTypeDistribution rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
 rdfs:range   :CitationsDistribution.
+  
+ :hasCountryDistribution rdf:type owl:ObjectProperty; 
+rdfs:domain  :paper; 
+rdfs:range     :CountryDistribution.
 
-:hasReference rdf:type owl:ObjectProperty;
+:hasAffiliationDistribution rdf:type owl:ObjectProperty; 
+rdfs:domain  :paper; 
+rdfs:range     :AffiliationDistribution.
+
+:hasGridTypeDistribution rdf:type owl:ObjectProperty;
+rdfs:domain :paper; 
+rdfs:range  :GRIDTypeDistribution.
+
+:hasAuthor rdf:type  owl:ObjectProperty;
 rdfs:domain  :paper;
-rdfs:range   :paper.
- 
-### properties with Literal Range
-:hasJourName rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range   rdfs:Literal.
+rdfs:range   :author. 
 
-:hasConfSeries rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range    rdfs:Literal.
+##### author properties :hasNetworkDistribution  :hasWorkedInDistribution :hasPaper #########
+:hasNetworkDistribution rdf:type  owl:ObjectProperty;
+rdfs:domain  :author;
+rdfs:range   :AffiliationDistribution. 
 
-:hasConfName rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range    rdfs:Literal.
+:hasWorkedInDistribution rdf:type  owl:ObjectProperty;
+rdfs:domain  :author;
+rdfs:range   :CountryDistribution. 
 
-:hasYear rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range    rdfs:Literal.
-
-:hasEntityType rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range    rdfs:Literal.
-
-:hasType rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range    rdfs:Literal.
-
-:hasIndustrialSector rdf:type owl:ObjectProperty; 
-rdfs:domain  :paper; 
-rdfs:range    rdfs:Literal.
-
-
-
-
-### CitationsDistribution Property
-:hasCitationByYear rdf:type owl:ObjectProperty; 
-rdfs:domain  :CitationsDistribution; 
-rdfs:range   rdfs:Literal.
-
-
-:hasCitationByYear-weight rdf:type owl:DataTypeProperty; 
-rdfs:domain  :CitationsDistribution; 
-rdfs:range   xsd:float.
-#### GRIDTypeDistribution  Property
-:hasGridType rdf:type owl:ObjectProperty; 
-rdfs:domain  :GRIDTypeDistribution; 
-rdfs:range   rdfs:Literal.
-
-
-:hasGridType-weight rdf:type owl:DataTypeProperty; 
-rdfs:domain  :GRIDTypeDistribution; 
-rdfs:range   xsd:float.
-
-
-
-#################################################################
-####    Classes #################################################
-#################################################################
-:paper rdf:type owl:Class.
-:paper  owl:equivalentClass :aida:paper. 
-:paper  owl:equivalentClass :mag:paper.
-## Distributions ################
-:CitationsDistribution rdf:type owl:Class; 
-                        owl:unionOf(
-  [rdf:type owl:Restriction;
-  owl:onProperty :hasCitationByYear; 
-  owl:allValuesFrom  rdfs:Literal] ## restrictions on literals
-    [rdf:type owl:Restriction;  ## restrictions on float 
-    owl:onProperty :hasCitationByYear-weight;
-    owl:allValuesFrom    [ rdf:type   rdfs:DataType ; 
-                           owl:onDataType xsd:float
-    ]
-    ]                          
-).
-
-### GRIDTypeDistribution :hasGridType  :hasGridType-weight
-
-:GRIDTypeDistribution rdf:type owl:Class; 
-                        owl:unionOf(
-  [rdf:type owl:Restriction;
-  owl:onProperty :hasGridType; 
-  owl:allValuesFrom  rdfs:Literal] ## restrictions on literals
-    [rdf:type owl:Restriction;  ## restrictions on float 
-    owl:onProperty :hasGridType-weight;
-    owl:allValuesFrom    [ rdf:type   rdfs:DataType ; 
-                           owl:onDataType xsd:float
-    ]
-    ]                          
-).
+:hasPaper rdf:type  owl:ObjectProperty;
+rdfs:domain  :author;
+rdfs:range   :paper. 
