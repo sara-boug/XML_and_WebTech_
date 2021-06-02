@@ -1,0 +1,75 @@
+#Return all unique affiliations present in the graph
+PREFIX aida35kschema: <http://aida.kmi.open.ac.uk/aida35k/ontology#>
+select Distinct ?affiliations where {
+?af aida35kschema:hasAffiliation ?affiliations
+}  
+
+
+
+#Count the distinct CSO topics present in the graph
+PREFIX aida35kschema: <http://aida.kmi.open.ac.uk/aida35k/ontology#>
+PREFIX cso: <http://cso.kmi.open.ac.uk/topics/> 
+
+select (count( Distinct ?topic) as ?topicCount) where {
+?output aida35kschema:hasCsoEnhancedTopic ?topic
+}
+
+
+
+
+
+#Find the 10 CSO topics that have the highest number of papers; present the topics in descending order of popularity, and for each topic show its name and number of papers.
+
+PREFIX aida35kschema: <http://aida.kmi.open.ac.uk/aida35k/ontology#>
+PREFIX cso: <http://cso.kmi.open.ac.uk/topics/> 
+
+select ?topic (count(?paper) as ?paperCount)   where {
+ ?paper  aida35kschema:hasCsoEnhancedTopic ?topic
+ 
+}GROUP BY ?topic
+ORDER  BY ?paper 
+ 
+
+
+
+#Find papers of the conference series ‘iswc’, count their references (citations), and present them in decrease order of their count
+
+PREFIX aida35kschema: <http://aida.kmi.open.ac.uk/aida35k/ontology#>
+PREFIX cso: <http://cso.kmi.open.ac.uk/topics/> 
+
+select ?paper (count(?ref) as ?refCount ) where {
+ ?paper  aida35kschema:hasConfSeries 'iswc'.
+ ?paper  aida35kschema:hasReference  ?ref
+    
+ 
+}GROUP BY ?paper
+ORDER BY DESC(count(?ref))
+ 
+
+
+
+ 
+#Find all authors that have an Affiliation with ULB, and present them along with their papers.
+PREFIX aida35kschema: <http://aida.kmi.open.ac.uk/aida35k/ontology#>
+PREFIX cso: <http://cso.kmi.open.ac.uk/topics/> 
+
+select *where {
+ ?paper  aida35kschema:hasAffiliationDistribution ?af.
+ ?af  aida35kschema:hasAffiliation "vrije_universiteit_brussel". 
+ ?author aida35kschema:hasPaper ?paper.
+}
+
+
+
+SELECT ?abstract
+WHERE
+{
+  SERVICE <https://makg.org/sparql> 
+    { 
+        SELECT ?link ?abstract WHERE { 
+        <https://makg.org/entity/1642143707> ?link ?abstract.
+         FILTER regex(?link, "abstract", "")
+        }
+     }
+}
+ 
